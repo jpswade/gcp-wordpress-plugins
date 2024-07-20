@@ -19,18 +19,18 @@ namespace Google\Cloud\Storage\WordPress\Test;
 
 use Google\Cloud\Storage\StorageClient;
 use Google\Cloud\Storage\WordPress;
-use Google\Cloud\Storage\WordPress\Uploads\Uploads;
+use Google\Cloud\Storage\WordPress\src\Uploads\Uploads;
 
 /**
  * Unit tests for the plugin.
  */
-class GcsPluginUnitTestCase extends \WP_UnitTestCase
+class GcsPluginUnitTest extends TestCase
 {
 
     /**
      * A test for options_page_view.
      */
-    public function test_options_page_view()
+    public function test_options_page_view(): void
     {
         // Nothing for normal user
         ob_start();
@@ -52,16 +52,17 @@ class GcsPluginUnitTestCase extends \WP_UnitTestCase
     /**
      * A test for options_page.
      */
-    public function test_options_page()
+    public function test_options_page(): void
     {
-        // TODO: actually check the side effect of this call.
         WordPress\options_page();
+        // TODO: actually check the side effect of this call.
+
     }
 
     /**
      * A test for activation_hook.
      */
-    public function test_activation_hook()
+    public function test_activation_hook(): void
     {
         // TODO: actually check the side effect of this call.
         WordPress\activation_hook();
@@ -70,7 +71,7 @@ class GcsPluginUnitTestCase extends \WP_UnitTestCase
     /**
      * A test for settings_link.
      */
-    public function test_settings_link()
+    public function test_settings_link(): void
     {
         $links = [];
         $links = WordPress\settings_link(
@@ -83,7 +84,7 @@ class GcsPluginUnitTestCase extends \WP_UnitTestCase
     /**
      * A test for register_settings().
      */
-    public function test_register_settings()
+    public function test_register_settings(): void
     {
         // There is no settings initially.
         $ssl = get_option(Uploads::USE_HTTPS_OPTION);

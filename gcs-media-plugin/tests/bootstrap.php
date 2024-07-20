@@ -18,9 +18,13 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $storageClient = new Google\Cloud\Storage\StorageClient();
 $storageClient->registerStreamWrapper();
 
+$_tmp_dir = getenv('WP_TMP_DIR');
+if (!$_tmp_dir) {
+    $_tmp_dir = 'work';
+}
 $_tests_dir = getenv('WP_TESTS_DIR');
-if (! $_tests_dir) {
-    $_tests_dir = '/tmp/wordpress-tests-lib';
+if (!$_tests_dir) {
+    $_tests_dir = $_tmp_dir. '/wordpress-tests-lib';
 }
 
 // Give access to tests_add_filter() function.
