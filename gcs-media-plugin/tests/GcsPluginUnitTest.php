@@ -19,7 +19,7 @@ namespace Google\Cloud\Storage\WordPress\Test;
 
 use Google\Cloud\Storage\StorageClient;
 use Google\Cloud\Storage\WordPress;
-use Google\Cloud\Storage\WordPress\src\Uploads\Uploads;
+use Google\Cloud\Storage\WordPress\Uploads\Uploads;
 
 /**
  * Unit tests for the plugin.
@@ -46,7 +46,7 @@ class GcsPluginUnitTest extends TestCase
         ob_start();
         WordPress\options_page_view();
         $html = ob_get_clean();
-        $this->assertRegexp('/form action="options.php"/', $html);
+        $this->assertMatchesRegularExpression('/form action="options.php"/', $html);
     }
 
     /**
@@ -78,7 +78,7 @@ class GcsPluginUnitTest extends TestCase
             $links,
             \plugin_basename(WordPress\PLUGIN_PATH)
         );
-        $this->assertRegexp('/options-general.php\\?page=gcs/', $links[0]);
+        $this->assertMatchesRegularExpression('/options-general.php\\?page=gcs/', $links[0]);
     }
 
     /**
@@ -162,7 +162,7 @@ class GcsPluginUnitTest extends TestCase
         ob_start();
         Uploads::bucket_form();
         $html = ob_get_clean();
-        $this->assertRegexp(
+        $this->assertMatchesRegularExpression(
             '/<input id="gcs_bucket" name="gcs_bucket" type="text" value="">/',
             $html
         );
@@ -176,7 +176,7 @@ class GcsPluginUnitTest extends TestCase
         ob_start();
         Uploads::use_https_form();
         $html = ob_get_clean();
-        $this->assertRegexp(
+        $this->assertMatchesRegularExpression(
             '/input id="gcs_use_https_for_media", name="gcs_use_https_for_media" type="checkbox"/',
             $html
         );
