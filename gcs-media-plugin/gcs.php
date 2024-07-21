@@ -45,7 +45,7 @@ $storageClient->registerStreamWrapper();
 /**
  * Render the options page.
  */
-function options_page_view()
+function options_page_view(): void
 {
     // check user capabilities
     if (!current_user_can('manage_options')) {
@@ -71,9 +71,9 @@ function options_page_view()
 /**
  * Callback for defining options.
  */
-function options_page()
+function options_page(): false|string
 {
-    add_options_page(
+    return add_options_page(
         __('GCS Plugin Configurations', 'gcs'),
         __('GCS', 'gcs'),
         'manage_options',
@@ -87,7 +87,7 @@ function options_page()
  *
  * Call an action 'gcs_activation' to allow sub modules doing their own stuff.
  */
-function activation_hook()
+function activation_hook(): void
 {
     do_action('gcs_activation');
 }
@@ -108,7 +108,7 @@ function settings_link($links, $file)
 /**
  * Callback for registering the setting.
  */
-function register_settings()
+function register_settings(): void
 {
     do_action('gcs_register_settings');
 }
@@ -116,10 +116,11 @@ function register_settings()
 /**
  * Returns a configured instance of the Google Cloud Storage API client.
  *
- * @param callable $httpHandler [optional] Http Handler to invoke the API call.
+ * @param callable|null $httpHandler [optional] Http Handler to invoke the API call.
  * @return StorageClient
+ * @throws \Exception
  */
-function get_google_storage_client(callable $httpHandler = null)
+function get_google_storage_client(callable $httpHandler = null): StorageClient
 {
     $httpHandler = $httpHandler ?: HttpHandlerFactory::build();
     return new StorageClient([
@@ -141,7 +142,7 @@ function get_google_storage_client(callable $httpHandler = null)
  * Get the current "x-goog-api-client" string containing plugin and WordPress
  * versions.
  */
-function get_wp_info_header()
+function get_wp_info_header(): string
 {
     global $wp_version;
 

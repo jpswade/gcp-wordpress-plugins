@@ -54,9 +54,18 @@ class GcsPluginUnitTest extends TestCase
      */
     public function test_options_page(): void
     {
-        WordPress\options_page();
-        // TODO: actually check the side effect of this call.
+        $output = WordPress\options_page();
+        $this->assertEmpty($output);
 
+        // Showing options form to admins.
+        $user_id = $this->factory->user->create(
+            array('role' => 'administrator')
+        );
+        \wp_set_current_user($user_id);
+
+        $output = WordPress\options_page();
+
+        $this->assertEquals('admin_page_gcs', $output);
     }
 
     /**
@@ -64,8 +73,22 @@ class GcsPluginUnitTest extends TestCase
      */
     public function test_activation_hook(): void
     {
-        // TODO: actually check the side effect of this call.
+        // Flag to check if our custom function was called
+        $functionCalled = false;
+
+        // Custom function to attach to the 'gcs_activation' action hook
+        $customFunction = function () use (&$functionCalled) {
+            $functionCalled = true;
+        };
+
+        // Attach the custom function to the 'gcs_activation' action hook
+        add_action('gcs_activation', $customFunction);
+
+        // Call the function we're testing
         WordPress\activation_hook();
+
+        // Check if our custom function was called
+        $this->assertTrue($functionCalled);
     }
 
     /**
